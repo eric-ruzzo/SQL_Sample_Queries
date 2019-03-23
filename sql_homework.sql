@@ -6,18 +6,13 @@ SET SQL_SAFE_UPDATES = 0;
 DESCRIBE actor;
 
 -- 1b. Display first and last name of each actor in one column --
-SELECT 
-	CONCAT (first_name, " ", last_name) AS Actor
-FROM
-	actor;
+SELECT CONCAT (first_name, " ", last_name) AS Actor
+FROM actor;
 
 -- 2a. Find data for Joe --
-SELECT
-	actor_id, first_name, last_name
-FROM
-	actor
-WHERE 
-	first_name = "Joe";
+SELECT actor_id, first_name, last_name
+FROM actor
+WHERE  first_name = "Joe";
     
 -- 2b. Find all actors whose last name contains GEN --
 SELECT * FROM actor
@@ -137,8 +132,10 @@ SELECT CU.first_name, CU.last_name, CU.email, CO.country
 FROM customer AS CU
 INNER JOIN address AS A
 ON CU.address_id=A.address_id
+
 INNER JOIN city AS CI
 ON A.city_id=CI.city_id
+
 INNER JOIN country AS CO
 ON CI.country_id=CO.country_id
 WHERE CO.country="Canada";
@@ -163,10 +160,13 @@ SELECT F.title, COUNT(I.inventory_id) AS "Number of Rentals"
 FROM film AS F
 INNER JOIN inventory AS I
 ON F.film_id=I.film_id
+
 INNER JOIN rental AS R
 ON I.inventory_id=R.inventory_id
+
 INNER JOIN payment AS P
 ON P.rental_id=R.rental_id
+
 GROUP BY I.film_id
 ORDER BY COUNT(I.inventory_id) DESC;
 
@@ -175,8 +175,10 @@ SELECT store.store_id, SUM(P.amount) AS "Business ($)"
 FROM store
 INNER JOIN staff
 ON staff.store_id=store.store_id
+
 INNER JOIN rental AS R
 ON R.staff_id=staff.staff_id
+
 INNER JOIN payment AS P
 ON P.rental_id=R.rental_id
 GROUP BY store.store_id;
@@ -186,8 +188,10 @@ SELECT S.store_id, CI.city, CO.country
 FROM store AS S
 INNER JOIN address AS A
 ON A.address_id=S.address_id
+
 INNER JOIN city AS CI
 ON CI.city_id=A.city_id
+
 INNER JOIN country AS CO
 ON CO.country_id=CI.country_id;
 
@@ -196,12 +200,16 @@ SELECT C.name, SUM(P.amount) AS "Gross Revenue"
 FROM category AS C
 INNER JOIN film_category AS FC
 ON C.category_id=FC.category_id
+
 INNER JOIN inventory AS I 
 ON FC.film_id=I.film_id
+
 INNER JOIN rental AS R
 ON I.inventory_id=R.inventory_id
+
 INNER JOIN payment AS P
 ON R.rental_id=P.rental_id
+
 GROUP BY C.name
 ORDER BY SUM(P.amount) DESC;
 
@@ -212,12 +220,16 @@ AS
 	FROM category AS C
 	INNER JOIN film_category AS FC
 	ON C.category_id=FC.category_id
+    
 	INNER JOIN inventory AS I 
 	ON FC.film_id=I.film_id
+    
 	INNER JOIN rental AS R
 	ON I.inventory_id=R.inventory_id
+    
 	INNER JOIN payment AS P
 	ON R.rental_id=P.rental_id
+    
 	GROUP BY C.name
 	ORDER BY SUM(P.amount) DESC
 ;
